@@ -8,6 +8,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 export class AppComponent implements OnInit, AfterViewInit  {
   @ViewChild('start') startBox: ElementRef;
   @ViewChild('end') endBox: ElementRef;
+  arrow: any;
 
   constructor() {}
 
@@ -16,8 +17,12 @@ export class AppComponent implements OnInit, AfterViewInit  {
   }
 
   ngAfterViewInit() {
-    const start = document.getElementById('start');
-    console.log(start, this.startBox);
-    new LeaderLine(this.startBox.nativeElement, this.endBox.nativeElement);
+    this.arrow = new LeaderLine(this.startBox.nativeElement, this.endBox.nativeElement);
+    // this.drawArrow();
+  }
+
+  drawArrow() {
+    this.arrow.position();
+    // new LeaderLine(this.startBox.nativeElement, this.endBox.nativeElement);
   }
 }
