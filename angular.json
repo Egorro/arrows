@@ -30,7 +30,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/leader-line/leader-line.min.js"]
           },
           "configurations": {
             "production": {
@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "dynamic-arrows"
+    }
+  },
+  "defaultProject": "dynamic-arrows",
+  "cli": {
+    "analytics": false
+  }
 }
