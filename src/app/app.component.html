@@ -1,3 +1,6 @@
-<div class="box" id="start" #start></div>
-<div class="box" id="end" #end cdkDrag (cdkDragMoved)="drawArrow()"></div>
-<div class="box" id="end2" #end2 cdkDrag (cdkDragMoved)="drawArrow()"></div>
+
+<div [style.transform]="'scale(' + scale + ')'" (transitionend)="drawArrow()" (mousewheel)="onScroll($event)">
+  <div class="box" id="start" #start></div>
+  <div class="box" id="end" #end cdkDrag (cdkDragMoved)="drawArrow()"></div>
+  <div class="box" id="end2" #end2 cdkDrag (cdkDragMoved)="drawArrow()"></div>
+</div>
