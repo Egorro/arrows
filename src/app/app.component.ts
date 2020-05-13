@@ -4,11 +4,8 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
-  EventEmitter,
-  HostListener,
 } from '@angular/core';
-import { Box } from './box';
-import { forkJoin } from 'rxjs';
+import { Box, Gates } from './box';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 const items = [
@@ -24,8 +21,8 @@ const items = [
 ];
 
 const boxNames = [
-  { name: 'Get to work', position: { x: 276, y: 84 } },
-  { name: 'Pick up groceries', position: { x: 130, y: 173 } },
+  { name: 'Get to work', position: { x: 276, y: 84 }, gates: [{name: 'input'}] as Gates },
+  { name: 'Pick up groceries', position: { x: 130, y: 173 }, gates: [{name: 'output'}] as Gates },
   { name: 'Go home', position: { x: 451, y: 73 } },
 ];
 
@@ -35,6 +32,7 @@ const boxNames = [
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
+  @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('start') startBox: ElementRef;
   @ViewChild('end') endBox: ElementRef;
   @ViewChild('end2') end2Box: ElementRef;
@@ -42,7 +40,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   arrow2: any;
   scale = 1;
   items: Box[] = items.map((name) => new Box(name));
-  boxes: Box[] = boxNames.map(({ name, position }) => new Box(name, position));
+  boxes: Box[] = boxNames.map(({ name, position, gates = [] }) => new Box(name, position, gates));
 
   constructor() {}
 
@@ -83,10 +81,19 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   drop(event: CdkDragDrop<Box>) {
-    console.log(event);
-    const newBox = new Box(event.container.data[event.currentIndex].name);
-    console.log(newBox);
+    const element = event.item.element.nativeElement;
+    const { offsetLeft, offsetTop } = element;
+    const { x, y } = event.distance;
+    const positionX = offsetLeft + x;
+    const positionY = offsetTop + y;
+    const newX = positionX - 110;
+    const newY = (positionY - (element.offsetHeight * this.boxes.length) - 19);
+    const newBox = new Box(event.container.data[event.currentIndex].name, {x: newX, y: newY});
     this.boxes.push(newBox);
+  }
+
+  setPosition() {
+    this.boxes[this.boxes.length - 1].position = {x: 0, y: 0};
   }
 
   entered(event) {
