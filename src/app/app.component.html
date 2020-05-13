@@ -1,6 +1,54 @@
-
-<div [style.transform]="'scale(' + scale + ')'" (transitionend)="drawArrow()" (mousewheel)="onScroll($event)">
-  <div class="box" id="start" #start></div>
-  <div class="box" id="end" #end cdkDrag (cdkDragMoved)="drawArrow()"></div>
-  <div class="box" id="end2" #end2 cdkDrag (cdkDragMoved)="drawArrow()"></div>
+<div class="container">
+  <div class="library border">
+    <div class="example-container">
+      <h2>Available items</h2>
+      <div cdkDropList [cdkDropListData]="items" cdkDropListSortingDisabled>
+        <div
+          class="box border"
+          *ngFor="let item of items"
+          cdkDrag
+          (cdkDragDropped)="drop($event)"
+          (cdkDragEntered)="entered($event)"
+        >
+          {{ item.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="canvas border"
+    [style.transform]="'scale(' + scale + ')'"
+    (mousewheel)="onScroll($event)"
+  >
+    <div
+      class="box border"
+      *ngFor="let box of boxes"
+      cdkDrag
+      cdkDragBoundary=".canvas"
+      [cdkDragFreeDragPosition]="box.position"
+      (cdkDragMoved)="drawArrow($event)"
+      (cdkDragDropped)="drop($event)"
+      (cdkDragEntered)="entered($event)"
+    >
+      {{ box.name }}
+    </div>
+    <!-- <div class="box border" #start cdkDrag (cdkDragMoved)="drawArrow($event)"></div> -->
+    <!-- <div class="box border" #end cdkDrag (cdkDragMoved)="drawArrow($event)"></div> -->
+    <!-- <div class="box border" #end2 cdkDrag (cdkDragMoved)="drawArrow($event)"></div> -->
+    <!-- <div class="box border" id="end01" #end01 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end02" #end02 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end03" #end03 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end04" #end04 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end05" #end05 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end06" #end06 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end07" #end07 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end08" #end08 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end09" #end09 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end10" #end10 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end11" #end11 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end12" #end12 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end13" #end13 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end14" #end14 cdkDrag (cdkDragMoved)="drawArrow($event)"></div>
+    <div class="box border" id="end15" #end15 cdkDrag (cdkDragMoved)="drawArrow($event)"></div> -->
+  </div>
 </div>
