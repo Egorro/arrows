@@ -2,9 +2,23 @@
   <div class="library border">
     <div class="example-container">
       <h2>Available items</h2>
-      <div cdkDropList [cdkDropListData]="items" cdkDropListSortingDisabled>
+      <div class="metablocks">
+        <div class="metablocks-item">
+          Take a shower
+        </div>
+        <div class="metablocks-item">
+          Check e-mail
+        </div>
+      </div>
+      <h2>Available items</h2>
+      <div
+        class="metablocks"
+        cdkDropList
+        [cdkDropListData]="items"
+        cdkDropListSortingDisabled
+      >
         <div
-          class="box border"
+          class="metablocks-item"
           *ngFor="let item of items"
           cdkDrag
           (cdkDragDropped)="drop($event)"
@@ -36,11 +50,15 @@
       <div class="box__handle" cdkDragHandle>
         {{ box.name }}
       </div>
-      <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
-        {{ gate.name }}
+      <div class="box__buttons">
+        <button class="btn box__btn"></button>
+        <button class="btn box__btn"></button>
+        <button class="btn box__btn"></button>
       </div>
+      <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
+        {{ gate.name }}
+      </div> -->
     </div>
-
   </div>
 </div>
 <div class="end-arrow" #endArrow></div>
