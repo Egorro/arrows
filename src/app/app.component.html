@@ -29,35 +29,38 @@
       </div>
     </div>
   </div>
-  <div
-    class="canvas border"
-    #canvas
-    [style.transform]="'scale(' + scale + ')'"
-    (mousewheel)="onScroll($event)"
-  >
-    <div
-      class="box border"
-      *ngFor="let box of boxes"
-      cdkDrag
-      cdkDragBoundary=".canvas"
-      [cdkDragFreeDragPosition]="box.position"
-      (cdkDragStarted)="handleDragStart($event, box)"
-      (click)="startArrow($event, box)"
-      (cdkDragMoved)="drawArrow($event, box)"
-      (cdkDragDropped)="drop($event)"
-      (cdkDragEntered)="entered($event)"
-    >
-      <div class="box__handle" cdkDragHandle>
-        {{ box.name }}
+  <div class="canvas-container border" (mousewheel)="onScroll($event)">
+    <div class="canvas__drag" cdkDrag>
+      <div
+        class="canvas"
+        #canvas
+        [style.transform]="'scale(' + scale + ')'"
+      >
+        <div
+          class="box border"
+          *ngFor="let box of boxes"
+          cdkDrag
+          cdkDragBoundary=".canvas-container"
+          [cdkDragFreeDragPosition]="box.position"
+          (cdkDragStarted)="handleDragStart($event, box)"
+          (click)="startArrow($event, box)"
+          (cdkDragMoved)="drawArrow($event, box)"
+          (cdkDragDropped)="drop($event)"
+          (cdkDragEntered)="entered($event)"
+        >
+          <div class="box__handle" cdkDragHandle>
+            {{ box.name }}
+          </div>
+          <div class="box__buttons">
+            <button class="btn box__btn"></button>
+            <button class="btn box__btn"></button>
+            <button class="btn box__btn"></button>
+          </div>
+          <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
+            {{ gate.name }}
+          </div> -->
+        </div>
       </div>
-      <div class="box__buttons">
-        <button class="btn box__btn"></button>
-        <button class="btn box__btn"></button>
-        <button class="btn box__btn"></button>
-      </div>
-      <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
-        {{ gate.name }}
-      </div> -->
     </div>
   </div>
 </div>

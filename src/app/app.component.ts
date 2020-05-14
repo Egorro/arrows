@@ -69,7 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     document.body.append(element);
 
     moveAt(event.pageX, event.pageY);
-    this.currentBox.arrow.position();
+    // this.currentBox.arrow.position();
 
     function moveAt(pageX, pageY) {
       element.style.left = pageX - shiftX + 'px';
@@ -80,12 +80,14 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {}
 
   onScroll(event) {
+    const step = 0.05;
+    const minLimit = 0.4;
     const delta = event.deltaY;
 
     if (delta > 0) {
-      this.scale += 0.05;
+      this.scale += step;
     } else {
-      this.scale -= 0.05;
+      this.scale >= minLimit + step ? this.scale -= step : this.scale = minLimit;
     }
     // setTimeout(() => this.drawArrow());
   }
