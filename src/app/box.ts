@@ -3,6 +3,24 @@ interface Point {
   readonly y: number;
 }
 
+interface Gate {}
+
+export interface InputGate extends Gate {
+  name: 'input';
+}
+
+export interface OutGate extends Gate {
+  name: 'output';
+}
+
+export type Gates = Array<InputGate | OutGate>;
+
 export class Box {
-  constructor(public name: string, public position: Point = {x: 0, y: 0}) {}
+  constructor(
+    public name: string,
+    public position: Point = { x: 0, y: 0 },
+    public gates: Gates = []
+  ) {}
+  dragging: boolean;
+  arrow: any;
 }
