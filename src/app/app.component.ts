@@ -10,29 +10,24 @@ import { Box, Gates } from './box';
 import { CdkDragDrop, CdkDragStart } from '@angular/cdk/drag-drop';
 
 const items = [
-  'Get to work',
-  'Pick up groceries',
-  'Go home',
-  'Fall asleep',
-  'Get up',
-  'Brush teeth',
-  'Take a shower',
-  'Check e-mail',
-  'Walk dog',
+  'P.EqualWeight',
+  'P.FixedWeight',
+  'P.FactorChooser',
+  'P.VolatilityWeighted',
 ];
 
 const boxNames = [
   {
-    name: 'Get to work',
+    name: 'P.EqualWeight',
     position: { x: 276, y: 84 },
     gates: [{ name: 'input' }] as Gates,
   },
   {
-    name: 'Pick up groceries',
+    name: 'P.FixedWeight',
     position: { x: 130, y: 173 },
     gates: [{ name: 'output' }] as Gates,
   },
-  { name: 'Go home', position: { x: 451, y: 73 } },
+  { name: 'P.FactorChooser', position: { x: 451, y: 73 } },
 ];
 
 @Component({
@@ -87,7 +82,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (delta > 0) {
       this.scale += step;
     } else {
-      this.scale >= minLimit + step ? this.scale -= step : this.scale = minLimit;
+      this.scale >= minLimit + step
+        ? (this.scale -= step)
+        : (this.scale = minLimit);
     }
     // setTimeout(() => this.drawArrow());
   }

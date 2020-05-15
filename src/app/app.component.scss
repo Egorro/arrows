@@ -2,8 +2,13 @@
   display: flex;
 }
 
+h2 {
+  color: #fff;
+}
+
 .library {
   display: flex;
+  flex-direction: column;
   padding: 5px 10px;
   width: 250px;
   background-color: #adadad;
@@ -20,21 +25,29 @@
   cursor: move;
 }
 
+.card {
+  background-color: rgb(60, 60, 60);
+  color: #333333;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+}
+
 .canvas-container {
-  margin-left: 20px;
   width: 1200px;
   height: 800px;
   overflow: hidden;
+  background-color: rgb(60, 60, 60);
   background: repeating-linear-gradient(
       transparent,
       transparent 20px,
-      yellowgreen 22px
+      rgba(255, 255, 255, 0.05) 22px
     ),
     repeating-linear-gradient(
       90deg,
       transparent,
       transparent 20px,
-      yellowgreen 22px
+      rgba(255, 255, 255, 0.05) 22px
     );
 }
 

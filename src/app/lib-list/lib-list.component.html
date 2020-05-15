@@ -1,0 +1,10 @@
+<div
+  class="metablocks"
+  cdkDropList
+  [cdkDropListData]="items"
+  cdkDropListSortingDisabled
+>
+  <div class="metablocks-item" *ngFor="let item of items" cdkDrag>
+    {{ item.name }}
+  </div>
+</div>

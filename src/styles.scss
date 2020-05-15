@@ -1,6 +1,8 @@
 @import "http://fonts.fontstorage.com/import/firasans.css";
 @import 'styles/buttons.scss';
+@import 'styles/atomic.scss';
 
 html, body {
   font-family: 'Fira Sans';
+  background-color: rgb(47, 47, 47);
 }
