@@ -24,3 +24,7 @@ export class Box {
   dragging: boolean;
   arrow: any;
 }
+
+export class Task {
+  constructor(public name: string, public boxes: Box[]) {}
+}

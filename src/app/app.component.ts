@@ -6,7 +6,7 @@ import {
   AfterViewInit,
   HostListener,
 } from '@angular/core';
-import { Box, Gates } from './box';
+import { Box, Gates, Task } from './box';
 import { CdkDragDrop, CdkDragStart } from '@angular/cdk/drag-drop';
 
 const items = [
@@ -14,6 +14,40 @@ const items = [
   'P.FixedWeight',
   'P.FactorChooser',
   'P.VolatilityWeighted',
+];
+
+const data = [
+  {
+    name: 'Universe', boxes: ['U.Fixed Set', 'U.Custom Rules', 'U.Index Committee'],
+  },
+  {
+    name: 'Portfolio Method', boxes: [
+      'P.EqualWeight',
+      'P.FixedWeight',
+      'P.FactorChooser',
+      'P.VolatilityWeighted',
+    ],
+  },
+  {
+    name: 'Market Data', boxes: ['MD.EOD', 'MD.Fixing'],
+  },
+  { name: 'Corporate Actions', boxes: ['CA.Dividends', 'CA.Exeptions Rule'] },
+  { name: 'Risk Features ', boxes: ['RF.Volatility Control'] },
+  {
+    name: 'Measurements', boxes: [
+      'M.Performance Inst',
+      'M.Performance Bsk',
+      'M.Total Return',
+      'M.LogRet Bsk',
+      'M.Realized Volatility',
+      'M.Exposure',
+      'M.Excess Return',
+      'M.Index Level',
+      'M.Weights for MX',
+      'M.Theo Weight ',
+      'M.Effective Weight ',
+    ],
+  },
 ];
 
 const boxNames = [
@@ -45,6 +79,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   arrow2: any;
   scale = 1;
   items: Box[] = items.map((name) => new Box(name));
+  tasks: Task[] = data.map(task => new Task(task.name, task.boxes.map(box => new Box(box))));
   boxes: Box[] = boxNames.map(
     ({ name, position, gates = [] }) => new Box(name, position, gates)
   );
@@ -74,7 +109,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {}
 
+  fixScale() {
+    this.scale = 1;
+  }
+
   onScroll(event) {
+    event.preventDefault();
     const step = 0.05;
     const minLimit = 0.4;
     const delta = event.deltaY;
@@ -115,8 +155,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     const { x, y } = event.distance;
     const positionX = offsetLeft + x;
     const positionY = offsetTop + y;
-    const newX = positionX - 110;
-    const newY = positionY - element.offsetHeight * this.boxes.length - 19;
+    const newX = positionX - 180;
+    const newY = positionY - 68 * this.boxes.length;
     const newBox = new Box(event.container.data[event.currentIndex].name, {
       x: newX,
       y: newY,

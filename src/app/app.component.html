@@ -1,8 +1,8 @@
 <div class="container">
   <div class="">
     <div class="example-container">
-      <p-card [style]="{ 'background-color': 'rgb(60, 60, 60)' }">
-        <h2>Index browser</h2>
+      <p-card [style]="{ 'background-color': 'rgb(123, 166, 91)' }">
+        <h2>Indices</h2>
         <div class="metablocks">
           <div class="metablocks-item">SBERCCPP</div>
           <div class="metablocks-item">SBERECCY</div>
@@ -15,278 +15,21 @@
     </div>
     <p-card
       [styleClass]="'m-t-10'"
-      [style]="{ 'background-color': 'rgb(60, 60, 60)' }"
+      [style]="{ 'background-color': 'rgb(123, 166, 91)' }"
     >
-      <h2>Meta blocks</h2>
-      <p-accordion [multiple]="true">
-        <p-accordionTab header="Universe">
+      <h2>Task Library</h2>
+      <!-- #6b8aa2 фон active -->
+      <p-accordion>
+        <p-accordionTab *ngFor="let task of tasks" [header]="task.name">
           <div
             class="metablocks"
             cdkDropList
-            [cdkDropListData]="items"
+            [cdkDropListData]="task.boxes"
             cdkDropListSortingDisabled
           >
             <div
               class="metablocks-item"
-              *ngFor="let item of items"
-              cdkDrag
-              (cdkDragDropped)="drop($event)"
-              (cdkDragEntered)="entered($event)"
-            >
-              {{ item.name }}
-              <div class="box border" *cdkDragPreview>
-                <div class="box__handle" cdkDragHandle>
-                  {{ item.name }}
-                </div>
-                <div class="box__buttons">
-                  <button
-                    class="ui-button-raised ui-button-warning"
-                    pButton
-                    icon="pi pi-pencil"
-                  ></button>
-                  <button
-                    class="ui-button-raised ui-button-success"
-                    pButton
-                    icon="pi pi-check"
-                  ></button>
-                  <button
-                    class="ui-button-raised"
-                    pButton
-                    icon="pi pi-play"
-                  ></button>
-                </div>
-                <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
-              {{ gate.name }}
-            </div> -->
-              </div>
-            </div>
-          </div>
-        </p-accordionTab>
-        <p-accordionTab header="Portfolio Method">
-          <div
-            class="metablocks"
-            cdkDropList
-            [cdkDropListData]="items"
-            cdkDropListSortingDisabled
-          >
-            <div
-              class="metablocks-item"
-              *ngFor="let item of items"
-              cdkDrag
-              (cdkDragDropped)="drop($event)"
-              (cdkDragEntered)="entered($event)"
-            >
-              {{ item.name }}
-              <div class="box border" *cdkDragPreview>
-                <div class="box__handle" cdkDragHandle>
-                  {{ item.name }}
-                </div>
-                <div class="box__buttons">
-                  <button
-                    class="ui-button-raised ui-button-warning"
-                    pButton
-                    icon="pi pi-pencil"
-                  ></button>
-                  <button
-                    class="ui-button-raised ui-button-success"
-                    pButton
-                    icon="pi pi-check"
-                  ></button>
-                  <button
-                    class="ui-button-raised"
-                    pButton
-                    icon="pi pi-play"
-                  ></button>
-                </div>
-                <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
-              {{ gate.name }}
-            </div> -->
-              </div>
-            </div>
-          </div>
-        </p-accordionTab>
-        <p-accordionTab header="Market Data">
-          <div
-            class="metablocks"
-            cdkDropList
-            [cdkDropListData]="items"
-            cdkDropListSortingDisabled
-          >
-            <div
-              class="metablocks-item"
-              *ngFor="let item of items"
-              cdkDrag
-              (cdkDragDropped)="drop($event)"
-              (cdkDragEntered)="entered($event)"
-            >
-              {{ item.name }}
-              <div class="box border" *cdkDragPreview>
-                <div class="box__handle" cdkDragHandle>
-                  {{ item.name }}
-                </div>
-                <div class="box__buttons">
-                  <button
-                    class="ui-button-raised ui-button-warning"
-                    pButton
-                    icon="pi pi-pencil"
-                  ></button>
-                  <button
-                    class="ui-button-raised ui-button-success"
-                    pButton
-                    icon="pi pi-check"
-                  ></button>
-                  <button
-                    class="ui-button-raised"
-                    pButton
-                    icon="pi pi-play"
-                  ></button>
-                </div>
-                <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
-              {{ gate.name }}
-            </div> -->
-              </div>
-            </div>
-          </div>
-        </p-accordionTab>
-        <p-accordionTab header="Corporate Actions">
-          <div
-            class="metablocks"
-            cdkDropList
-            [cdkDropListData]="items"
-            cdkDropListSortingDisabled
-          >
-            <div
-              class="metablocks-item"
-              *ngFor="let item of items"
-              cdkDrag
-              (cdkDragDropped)="drop($event)"
-              (cdkDragEntered)="entered($event)"
-            >
-              {{ item.name }}
-              <div class="box border" *cdkDragPreview>
-                <div class="box__handle" cdkDragHandle>
-                  {{ item.name }}
-                </div>
-                <div class="box__buttons">
-                  <button
-                    class="ui-button-raised ui-button-warning"
-                    pButton
-                    icon="pi pi-pencil"
-                  ></button>
-                  <button
-                    class="ui-button-raised ui-button-success"
-                    pButton
-                    icon="pi pi-check"
-                  ></button>
-                  <button
-                    class="ui-button-raised"
-                    pButton
-                    icon="pi pi-play"
-                  ></button>
-                </div>
-                <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
-              {{ gate.name }}
-            </div> -->
-              </div>
-            </div>
-          </div>
-        </p-accordionTab>
-        <p-accordionTab header="Risk Features ">
-          <div
-            class="metablocks"
-            cdkDropList
-            [cdkDropListData]="items"
-            cdkDropListSortingDisabled
-          >
-            <div
-              class="metablocks-item"
-              *ngFor="let item of items"
-              cdkDrag
-              (cdkDragDropped)="drop($event)"
-              (cdkDragEntered)="entered($event)"
-            >
-              {{ item.name }}
-              <div class="box border" *cdkDragPreview>
-                <div class="box__handle" cdkDragHandle>
-                  {{ item.name }}
-                </div>
-                <div class="box__buttons">
-                  <button
-                    class="ui-button-raised ui-button-warning"
-                    pButton
-                    icon="pi pi-pencil"
-                  ></button>
-                  <button
-                    class="ui-button-raised ui-button-success"
-                    pButton
-                    icon="pi pi-check"
-                  ></button>
-                  <button
-                    class="ui-button-raised"
-                    pButton
-                    icon="pi pi-play"
-                  ></button>
-                </div>
-                <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
-              {{ gate.name }}
-            </div> -->
-              </div>
-            </div>
-          </div>
-        </p-accordionTab>
-        <p-accordionTab header="Measurements ">
-          <div
-            class="metablocks"
-            cdkDropList
-            [cdkDropListData]="items"
-            cdkDropListSortingDisabled
-          >
-            <div
-              class="metablocks-item"
-              *ngFor="let item of items"
-              cdkDrag
-              (cdkDragDropped)="drop($event)"
-              (cdkDragEntered)="entered($event)"
-            >
-              {{ item.name }}
-              <div class="box border" *cdkDragPreview>
-                <div class="box__handle" cdkDragHandle>
-                  {{ item.name }}
-                </div>
-                <div class="box__buttons">
-                  <button
-                    class="ui-button-raised ui-button-warning"
-                    pButton
-                    icon="pi pi-pencil"
-                  ></button>
-                  <button
-                    class="ui-button-raised ui-button-success"
-                    pButton
-                    icon="pi pi-check"
-                  ></button>
-                  <button
-                    class="ui-button-raised"
-                    pButton
-                    icon="pi pi-play"
-                  ></button>
-                </div>
-                <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
-              {{ gate.name }}
-            </div> -->
-              </div>
-            </div>
-          </div>
-        </p-accordionTab>
-        <p-accordionTab header="UDFs">
-          <div
-            class="metablocks"
-            cdkDropList
-            [cdkDropListData]="items"
-            cdkDropListSortingDisabled
-          >
-            <div
-              class="metablocks-item"
-              *ngFor="let item of items"
+              *ngFor="let item of task.boxes"
               cdkDrag
               (cdkDragDropped)="drop($event)"
               (cdkDragEntered)="entered($event)"
@@ -323,7 +66,7 @@
       </p-accordion>
     </p-card>
   </div>
-  <div class="card m-l-20">
+  <div class="card m-l-20" style="height: 800px;">
     <div class="canvas-container" (mousewheel)="onScroll($event)">
       <div class="canvas__drag" cdkDrag>
         <div class="canvas" #canvas [style.transform]="'scale(' + scale + ')'">

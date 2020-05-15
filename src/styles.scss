@@ -1,8 +1,10 @@
-@import "http://fonts.fontstorage.com/import/firasans.css";
-@import 'styles/buttons.scss';
-@import 'styles/atomic.scss';
+@import "styles/buttons.scss";
+@import "styles/atomic.scss";
 
-html, body {
-  font-family: 'Fira Sans';
-  background-color: rgb(47, 47, 47);
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  background-color: #e5e5e5;
 }
