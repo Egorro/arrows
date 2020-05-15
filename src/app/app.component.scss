@@ -17,12 +17,13 @@
 
 .metablocks-item {
   margin-top: 7px;
+  cursor: move;
 }
 
 .canvas-container {
   margin-left: 20px;
-  width: 700px;
-  height: 500px;
+  width: 1200px;
+  height: 800px;
   overflow: hidden;
   background: repeating-linear-gradient(
       transparent,
@@ -43,8 +44,8 @@
 }
 
 .canvas__drag {
-  width: 700px;
-  height: 500px;
+  width: 1200px;
+  height: 800px;
   cursor: move;
 }
 
