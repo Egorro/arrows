@@ -6,63 +6,9 @@ import {
   AfterViewInit,
   HostListener,
 } from '@angular/core';
-import { Box, Gates, Task } from './box';
+import { Box, Task } from './box';
 import { CdkDragDrop, CdkDragStart } from '@angular/cdk/drag-drop';
-
-const items = [
-  'P.EqualWeight',
-  'P.FixedWeight',
-  'P.FactorChooser',
-  'P.VolatilityWeighted',
-];
-
-const data = [
-  {
-    name: 'Universe', boxes: ['U.Fixed Set', 'U.Custom Rules', 'U.Index Committee'],
-  },
-  {
-    name: 'Portfolio Method', boxes: [
-      'P.EqualWeight',
-      'P.FixedWeight',
-      'P.FactorChooser',
-      'P.VolatilityWeighted',
-    ],
-  },
-  {
-    name: 'Market Data', boxes: ['MD.EOD', 'MD.Fixing'],
-  },
-  { name: 'Corporate Actions', boxes: ['CA.Dividends', 'CA.Exeptions Rule'] },
-  { name: 'Risk Features ', boxes: ['RF.Volatility Control'] },
-  {
-    name: 'Measurements', boxes: [
-      'M.Performance Inst',
-      'M.Performance Bsk',
-      'M.Total Return',
-      'M.LogRet Bsk',
-      'M.Realized Volatility',
-      'M.Exposure',
-      'M.Excess Return',
-      'M.Index Level',
-      'M.Weights for MX',
-      'M.Theo Weight ',
-      'M.Effective Weight ',
-    ],
-  },
-];
-
-const boxNames = [
-  {
-    name: 'P.EqualWeight',
-    position: { x: 276, y: 84 },
-    gates: [{ name: 'input' }] as Gates,
-  },
-  {
-    name: 'P.FixedWeight',
-    position: { x: 130, y: 173 },
-    gates: [{ name: 'output' }] as Gates,
-  },
-  { name: 'P.FactorChooser', position: { x: 451, y: 73 } },
-];
+import { data, defaultBoxes } from './testData';
 
 @Component({
   selector: 'app-root',
@@ -70,26 +16,27 @@ const boxNames = [
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild('canvas') canvas: ElementRef;
-  @ViewChild('start') startBox: ElementRef;
-  @ViewChild('end') endBox: ElementRef;
-  @ViewChild('end2') end2Box: ElementRef;
   @ViewChild('endArrow') endArrow: ElementRef;
   arrow: any;
   arrow2: any;
   scale = 1;
-  items: Box[] = items.map((name) => new Box(name));
-  tasks: Task[] = data.map(task => new Task(task.name, task.boxes.map(box => new Box(box))));
-  boxes: Box[] = boxNames.map(
+  tasks: Task[] = data.map(
+    (task) =>
+      new Task(
+        task.name,
+        task.boxes.map((box) => new Box(box))
+      )
+  );
+  boxes: Box[] = defaultBoxes.map(
     ({ name, position, gates = [] }) => new Box(name, position, gates)
   );
   currentBox: Box;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor() {}
 
   ngOnInit() {}
 
-  @HostListener('mousemove', ['$event']) onMouseMove(event) {
+  @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent) {
     const element = this.endArrow.nativeElement;
     const shiftX = event.clientX - element.getBoundingClientRect().left;
     const shiftY = event.clientY - element.getBoundingClientRect().top;
@@ -101,7 +48,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     moveAt(event.pageX, event.pageY);
     // this.currentBox.arrow.position();
 
-    function moveAt(pageX, pageY) {
+    function moveAt(pageX: number, pageY: number) {
       element.style.left = pageX - shiftX + 'px';
       element.style.top = pageY - shiftY + 'px';
     }
@@ -113,7 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.scale = 1;
   }
 
-  onScroll(event) {
+  onScroll(event: WheelEvent) {
     event.preventDefault();
     const step = 0.05;
     const minLimit = 0.4;
