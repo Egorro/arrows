@@ -93,7 +93,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   handleDragStart(event: CdkDragStart, box: Box) {
-    console.log(event);
+    console.log('move:', box);
     box.dragging = true;
   }
 
@@ -124,6 +124,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       x: newX,
       y: newY,
     });
+    console.log('added new box:', newBox);
     this.boxes.push(newBox);
   }
 
@@ -136,6 +137,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   drawArrow(event: MouseEvent, box: Box) {
-    box.arrow.position();
+    // box.arrow.position();
+  }
+
+  editBox(box: Box) {
+    console.log('edit:', box);
+  }
+
+  applyBox(box: Box) {
+    console.log('apply:', box);
+  }
+
+  runBox(box: Box) {
+    console.log('run:', box);
   }
 }
