@@ -52,9 +52,9 @@
             {{ box.name }}
           </div>
           <div class="box__buttons">
-            <p-button icon="pi pi-pencil" [style]="{'font-size': '9px'}"></p-button>
-            <p-button icon="pi pi-check" [style]="{'font-size': '9px'}"></p-button>
-            <p-button icon="pi pi-play" [style]="{'font-size': '9px'}"></p-button>
+            <button class="ui-button-raised ui-button-warning" pButton icon="pi pi-pencil"></button>
+            <button class="ui-button-raised ui-button-success" pButton icon="pi pi-check"></button>
+            <button class="ui-button-raised" pButton icon="pi pi-play"></button>
           </div>
           <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
             {{ gate.name }}
