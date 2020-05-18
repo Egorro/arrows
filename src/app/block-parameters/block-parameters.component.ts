@@ -19,4 +19,13 @@ export class BlockParametersComponent implements OnInit {
     this.connection.emit();
   }
 
+  highlightArrow(arrow: any) {
+    console.log('hover:', arrow);
+    arrow.setOptions({dash: {animation: true}, dropShadow: {color: 'white', dx: 0, dy: 0}});
+  }
+
+  defaultingArrow(arrow: any) {
+    arrow.setOptions({dash: false, dropShadow: false});
+  }
+
 }

@@ -104,9 +104,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private connectionBlocks(endBox: Box) {
-    this.drawArrow(this.selectedBox, endBox);
-    this.selectedBox.links.push(endBox);
-    endBox.links.push(this.selectedBox);
+    const arrow = this.drawArrow(this.selectedBox, endBox);
+    this.selectedBox.links.push({box: endBox, arrow});
+    endBox.links.push({box: this.selectedBox, arrow});
     this.connectionState = false;
     this.selectedBox.selected = false;
   }
@@ -115,10 +115,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.connectionState = true;
   }
 
-  private drawArrow(startBox: Box, endBox: Box) {
-    const arrow = new LeaderLine(startBox.nativeElement, endBox.nativeElement);
-    startBox.arrows.push(arrow);
-    endBox.arrows.push(arrow);
+  private drawArrow(startBox: Box, endBox: Box): any {
+    return new LeaderLine(startBox.nativeElement, endBox.nativeElement);
   }
 
   onCanvasClick(event: MouseEvent) {
@@ -163,7 +161,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   movedBox(event: MouseEvent, box: Box) {
     console.log('moved', box);
-    box.arrows.forEach(arrow => arrow.position());
+    box.links.forEach(({arrow}) => arrow.position());
   }
 
   editBox(box: Box) {

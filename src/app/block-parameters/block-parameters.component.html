@@ -3,7 +3,7 @@
   <div *ngIf="box">
     <p>box name: {{box.name}}</p>
     links: <ul>
-      <li *ngFor="let box of box.links">{{box.name}}</li>
+      <li *ngFor="let linksBox of box.links" (mouseenter)="highlightArrow(linksBox.arrow)" (mouseleave)="defaultingArrow(linksBox.arrow)">{{linksBox.box.name}}</li>
     </ul>
     <div class="actions">
       <button pButton type="button" label="Connection block to" class="ui-button-raised" (click)="connect()"></button>
