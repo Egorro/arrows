@@ -22,6 +22,7 @@ export class Box {
     public gates: Gates = []
   ) {}
   dragging: boolean;
+  selected: boolean;
   arrow: any;
 }
 

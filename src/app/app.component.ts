@@ -81,19 +81,29 @@ export class AppComponent implements OnInit, AfterViewInit {
     box.dragging = true;
   }
 
-  startArrow(event: MouseEvent, box: Box) {
+  selectBox(event: MouseEvent, box: Box) {
+    console.log('select box:', box);
+    box.selected = true;
     const element = event.target as HTMLElement;
-    if (box.dragging || !element.classList.contains('gate')) {
+    if (box.dragging) {
       box.dragging = false;
       return;
     }
-    console.log(event);
     const start = element;
     if (box.arrow) {
       box.arrow.remove();
     }
     box.arrow = new LeaderLine(start, this.endArrow.nativeElement);
     this.currentBox = box;
+  }
+
+  unselectedBoxes(event: MouseEvent) {
+    console.log(event);
+    const domEl = event.target as HTMLElement;
+    if (domEl.classList.contains('canvas')) {
+      console.log('unselect boxes');
+      this.boxes.forEach(box => box.selected = false);
+    }
   }
 
   drop(event: CdkDragDrop<Box>) {
