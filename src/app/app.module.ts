@@ -6,9 +6,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppComponent } from './app.component';
 import { LibListComponent } from './lib-list/lib-list.component';
 import { PrimeNgModulesModule } from './prime-ng-modules/prime-ng-modules.module';
+import { BlockParametersComponent } from './block-parameters/block-parameters.component';
 
 @NgModule({
-  declarations: [AppComponent, LibListComponent],
+  declarations: [AppComponent, LibListComponent, BlockParametersComponent],
   imports: [
     BrowserModule,
     DragDropModule,

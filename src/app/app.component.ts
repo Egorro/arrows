@@ -30,7 +30,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   boxes: Box[] = defaultBoxes.map(
     ({ name, position, gates = [] }) => new Box(name, position, gates)
   );
-  selectedBoxes: Box[] = [];
+  selectedBox: Box;
+  connectionState: boolean;
 
   constructor() {}
 
@@ -86,19 +87,35 @@ export class AppComponent implements OnInit, AfterViewInit {
       box.dragging = false;
       return;
     }
+
     console.log('select box:', box);
-    box.selected = true;
-    box.nativeElement = event.target as HTMLElement;
-    this.selectedBoxes.push(box);
-    if (this.selectedBoxes.length === 2) {
-      this.drawArrow(this.selectedBoxes);
-      console.log(event);
-      this.unselectedBoxes();
+    const boxElement = (event.target as HTMLElement).closest('.box-element') as HTMLElement;
+    box.nativeElement = boxElement;
+    if (this.connectionState) {
+      this.connectionBlocks(box);
+      return;
     }
+
+    if (this.selectedBox) {
+      this.selectedBox.selected = false;
+    }
+    box.selected = true;
+    this.selectedBox = box;
   }
 
+  private connectionBlocks(endBox: Box) {
+    this.drawArrow(this.selectedBox, endBox);
+    this.selectedBox.links.push(endBox);
+    endBox.links.push(this.selectedBox);
+    this.connectionState = false;
+    this.selectedBox.selected = false;
+  }
 
-  private drawArrow([startBox, endBox]: Box[]) {
+  connection() {
+    this.connectionState = true;
+  }
+
+  private drawArrow(startBox: Box, endBox: Box) {
     const arrow = new LeaderLine(startBox.nativeElement, endBox.nativeElement);
     startBox.arrows.push(arrow);
     endBox.arrows.push(arrow);
@@ -108,13 +125,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     const el = event.target as HTMLElement;
     if (el.classList.contains('canvas')) {
       console.log('unselect boxes');
-      this.unselectedBoxes();
+      this.unselectedBox();
     }
   }
 
-  private unselectedBoxes() {
-    this.selectedBoxes.forEach(box => box.selected = false);
-    this.selectedBoxes.length = 0;
+  private unselectedBox() {
+    this.selectedBox.selected = false;
   }
 
   drop(event: CdkDragDrop<Box>) {
@@ -135,6 +151,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   setPosition() {
     this.boxes[this.boxes.length - 1].position = { x: 0, y: 0 };
+  }
+
+  deleteBox(event: MouseEvent) {
+    console.log(event);
   }
 
   entered(event) {

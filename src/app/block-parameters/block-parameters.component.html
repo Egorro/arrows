@@ -1,0 +1,12 @@
+<p-card>
+  <h2>Block Parameters</h2>
+  <div *ngIf="box">
+    <p>box name: {{box.name}}</p>
+    links: <ul>
+      <li *ngFor="let box of box.links">{{box.name}}</li>
+    </ul>
+    <div class="actions">
+      <button pButton type="button" label="Connection block to" class="ui-button-raised" (click)="connect()"></button>
+    </div>
+  </div>
+</p-card>

@@ -71,7 +71,7 @@
       <div class="canvas__drag" cdkDrag>
         <div class="canvas" #canvas (click)="onCanvasClick($event)" [style.transform]="'scale(' + scale + ')'">
           <div
-            class="box border"
+            class="box-element box border"
             [ngClass]="{'box_selected': box.selected}"
             *ngFor="let box of boxes"
             cdkDrag
@@ -114,5 +114,6 @@
       </div>
     </div>
   </div>
+  <app-block-parameters [box]="selectedBox" (connection)="connection()"></app-block-parameters>
 </div>
 <div class="end-arrow" #endArrow></div>

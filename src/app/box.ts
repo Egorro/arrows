@@ -25,6 +25,7 @@ export class Box {
   selected: boolean;
   arrows: any[] = [];
   nativeElement?: HTMLElement;
+  links: Box[] = [];
 }
 
 export class Task {
