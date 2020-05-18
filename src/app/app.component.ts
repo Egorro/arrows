@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   boxes: Box[] = defaultBoxes.map(
     ({ name, position, gates = [] }) => new Box(name, position, gates)
   );
-  currentBox: Box;
+  selectedBoxes: Box[] = [];
 
   constructor() {}
 
@@ -82,28 +82,39 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   selectBox(event: MouseEvent, box: Box) {
-    console.log('select box:', box);
-    box.selected = true;
-    const element = event.target as HTMLElement;
     if (box.dragging) {
       box.dragging = false;
       return;
     }
-    const start = element;
-    if (box.arrow) {
-      box.arrow.remove();
+    console.log('select box:', box);
+    box.selected = true;
+    box.nativeElement = event.target as HTMLElement;
+    this.selectedBoxes.push(box);
+    if (this.selectedBoxes.length === 2) {
+      this.drawArrow(this.selectedBoxes);
+      console.log(event);
+      this.unselectedBoxes();
     }
-    box.arrow = new LeaderLine(start, this.endArrow.nativeElement);
-    this.currentBox = box;
   }
 
-  unselectedBoxes(event: MouseEvent) {
-    console.log(event);
-    const domEl = event.target as HTMLElement;
-    if (domEl.classList.contains('canvas')) {
+
+  private drawArrow([startBox, endBox]: Box[]) {
+    const arrow = new LeaderLine(startBox.nativeElement, endBox.nativeElement);
+    startBox.arrows.push(arrow);
+    endBox.arrows.push(arrow);
+  }
+
+  onCanvasClick(event: MouseEvent) {
+    const el = event.target as HTMLElement;
+    if (el.classList.contains('canvas')) {
       console.log('unselect boxes');
-      this.boxes.forEach(box => box.selected = false);
+      this.unselectedBoxes();
     }
+  }
+
+  private unselectedBoxes() {
+    this.selectedBoxes.forEach(box => box.selected = false);
+    this.selectedBoxes.length = 0;
   }
 
   drop(event: CdkDragDrop<Box>) {
@@ -130,8 +141,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     console.log('entered', event);
   }
 
-  drawArrow(event: MouseEvent, box: Box) {
-    // box.arrow.position();
+  movedBox(event: MouseEvent, box: Box) {
+    console.log('moved', box);
+    box.arrows.forEach(arrow => arrow.position());
   }
 
   editBox(box: Box) {

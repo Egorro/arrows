@@ -23,7 +23,8 @@ export class Box {
   ) {}
   dragging: boolean;
   selected: boolean;
-  arrow: any;
+  arrows: any[] = [];
+  nativeElement?: HTMLElement;
 }
 
 export class Task {

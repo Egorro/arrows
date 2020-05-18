@@ -69,7 +69,7 @@
   <div class="card m-l-20" style="height: 800px;">
     <div class="canvas-container" (mousewheel)="onScroll($event)">
       <div class="canvas__drag" cdkDrag>
-        <div class="canvas" #canvas (click)="unselectedBoxes($event)" [style.transform]="'scale(' + scale + ')'">
+        <div class="canvas" #canvas (click)="onCanvasClick($event)" [style.transform]="'scale(' + scale + ')'">
           <div
             class="box border"
             [ngClass]="{'box_selected': box.selected}"
@@ -79,7 +79,7 @@
             [cdkDragFreeDragPosition]="box.position"
             (cdkDragStarted)="handleDragStart($event, box)"
             (click)="selectBox($event, box)"
-            (cdkDragMoved)="drawArrow($event, box)"
+            (cdkDragMoved)="movedBox($event, box)"
             (cdkDragDropped)="drop($event)"
             (cdkDragEntered)="entered($event)"
           >
