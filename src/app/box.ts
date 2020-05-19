@@ -1,4 +1,5 @@
-interface Point {
+
+export interface Point {
   readonly x: number;
   readonly y: number;
 }
@@ -24,11 +25,12 @@ export class Box {
   constructor(
     public name: string,
     public position: Point = { x: 0, y: 0 },
-    public gates: Gates = []
+    public gates: Gates = [],
+    public id: string,
   ) {}
   dragging: boolean;
   selected: boolean;
-  arrows: any[] = [];
+  private arrows: any[] = [];
   nativeElement?: HTMLElement;
   links: BoxLink[] = [];
 
@@ -46,5 +48,5 @@ export class Box {
 }
 
 export class Task {
-  constructor(public name: string, public boxes: Box[]) {}
+  constructor(public name: string, public boxNames: string[]) {}
 }

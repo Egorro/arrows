@@ -6,9 +6,10 @@ import {
   AfterViewInit,
   HostListener,
 } from '@angular/core';
-import { Box, Task } from './box';
+import { Box, Task, Point } from './box';
 import { CdkDragDrop, CdkDragStart } from '@angular/cdk/drag-drop';
-import { data, defaultBoxes } from './testData';
+import { BoxService } from './services/box.service';
+import { TaskService } from './services/task.service';
 
 @Component({
   selector: 'app-root',
@@ -17,25 +18,21 @@ import { data, defaultBoxes } from './testData';
 })
 export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('endArrow') endArrow: ElementRef;
-  arrow: any;
-  arrow2: any;
   scale = 1;
-  tasks: Task[] = data.map(
-    (task) =>
-      new Task(
-        task.name,
-        task.boxes.map((box) => new Box(box))
-      )
-  );
-  boxes: Box[] = defaultBoxes.map(
-    ({ name, position, gates = [] }) => new Box(name, position, gates)
-  );
+  tasks: Task[];
+  boxes: Box[];
   selectedBox: Box;
   connectionState: boolean;
 
-  constructor() {}
+  constructor(
+    private boxService: BoxService,
+    private taskService: TaskService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.boxService.getBoxes().subscribe((boxes) => (this.boxes = boxes));
+    this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks));
+  }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent) {
     const element = this.endArrow.nativeElement;
@@ -89,7 +86,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     console.log('select box:', box);
-    const boxElement = (event.target as HTMLElement).closest('.box-element') as HTMLElement;
+    const boxElement = (event.target as HTMLElement).closest(
+      '.box-element'
+    ) as HTMLElement;
     box.nativeElement = boxElement;
     if (this.connectionState) {
       this.connectionBlocks(box);
@@ -106,8 +105,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   private connectionBlocks(endBox: Box) {
     const arrow = this.drawArrow(this.selectedBox, endBox);
 
-    this.selectedBox.links.push({box: endBox, arrow});
-    endBox.links.push({box: this.selectedBox, arrow});
+    this.selectedBox.links.push({ box: endBox, arrow });
+    endBox.links.push({ box: this.selectedBox, arrow });
 
     this.connectionState = false;
     this.selectedBox.selected = false;
@@ -141,10 +140,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     const positionY = offsetTop + y;
     const newX = positionX - 180;
     const newY = positionY - 68 * this.boxes.length;
-    const newBox = new Box(event.container.data[event.currentIndex].name, {
+    const point: Point = {
       x: newX,
       y: newY,
-    });
+    };
+    const boxName = event.container.data[event.currentIndex];
+    const newBox = this.boxService.createNewBox(boxName, point, null);
     console.log('added new box:', newBox);
     this.boxes.push(newBox);
   }
@@ -163,7 +164,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   movedBox(event: MouseEvent, box: Box) {
     console.log('moved', box);
-    box.links.forEach(({arrow}) => arrow.position());
+    box.links.forEach(({ arrow }) => arrow.position());
   }
 
   editBox(box: Box) {

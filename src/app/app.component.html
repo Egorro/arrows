@@ -24,20 +24,20 @@
           <div
             class="metablocks"
             cdkDropList
-            [cdkDropListData]="task.boxes"
+            [cdkDropListData]="task.boxNames"
             cdkDropListSortingDisabled
           >
             <div
               class="metablocks-item"
-              *ngFor="let item of task.boxes"
+              *ngFor="let item of task.boxNames"
               cdkDrag
               (cdkDragDropped)="drop($event)"
               (cdkDragEntered)="entered($event)"
             >
-              {{ item.name }}
+              {{ item }}
               <div class="box border" *cdkDragPreview>
                 <div class="box__handle" cdkDragHandle>
-                  {{ item.name }}
+                  {{ item }}
                 </div>
                 <div class="box__buttons">
                   <button
