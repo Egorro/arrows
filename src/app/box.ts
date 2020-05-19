@@ -3,6 +3,11 @@ interface Point {
   readonly y: number;
 }
 
+export interface BoxLink {
+  box: Box;
+  arrow: any;
+}
+
 interface Gate {}
 
 export interface InputGate extends Gate {
@@ -25,7 +30,19 @@ export class Box {
   selected: boolean;
   arrows: any[] = [];
   nativeElement?: HTMLElement;
-  links: {box: Box, arrow: any}[] = [];
+  links: BoxLink[] = [];
+
+  deleteLinkWithLink(link: BoxLink) {
+    link.box.deleteLinkWithBox(this);
+    link.arrow.remove();
+    const index = this.links.indexOf(link);
+    this.links.splice(index, 1);
+  }
+
+  deleteLinkWithBox(box: Box) {
+    const index = this.links.findIndex(link => link.box === box);
+    this.links.splice(index, 1);
+  }
 }
 
 export class Task {

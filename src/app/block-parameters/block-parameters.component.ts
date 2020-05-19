@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Box } from '../box';
+import { Box, BoxLink } from '../box';
 
 @Component({
   selector: 'app-block-parameters',
@@ -26,6 +26,10 @@ export class BlockParametersComponent implements OnInit {
 
   defaultingArrow(arrow: any) {
     arrow.setOptions({dash: false, dropShadow: false});
+  }
+
+  deleteLink(link: BoxLink) {
+    this.box.deleteLinkWithLink(link);
   }
 
 }

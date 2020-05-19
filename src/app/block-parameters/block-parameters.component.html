@@ -1,12 +1,31 @@
 <p-card>
   <h2>Block Parameters</h2>
   <div *ngIf="box">
-    <p>box name: {{box.name}}</p>
-    links: <ul>
-      <li *ngFor="let linksBox of box.links" (mouseenter)="highlightArrow(linksBox.arrow)" (mouseleave)="defaultingArrow(linksBox.arrow)">{{linksBox.box.name}}</li>
+    <p>box name: {{ box.name }}</p>
+    links:
+    <ul>
+      <li
+        *ngFor="let linksBox of box.links"
+        (mouseenter)="highlightArrow(linksBox.arrow)"
+        (mouseleave)="defaultingArrow(linksBox.arrow)"
+      >
+        {{ linksBox.box.name }}
+        <button class="ui-button-raised ui-button-danger"
+        style="font-size: 9px;"
+        pButton
+        icon="pi pi-trash"
+        (click)="deleteLink(linksBox)"
+        ></button>
+      </li>
     </ul>
     <div class="actions">
-      <button pButton type="button" label="Connection block to" class="ui-button-raised" (click)="connect()"></button>
+      <button
+        pButton
+        type="button"
+        label="Connection block to"
+        class="ui-button-raised"
+        (click)="connect()"
+      ></button>
     </div>
   </div>
 </p-card>

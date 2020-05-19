@@ -105,8 +105,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private connectionBlocks(endBox: Box) {
     const arrow = this.drawArrow(this.selectedBox, endBox);
+
     this.selectedBox.links.push({box: endBox, arrow});
     endBox.links.push({box: this.selectedBox, arrow});
+
     this.connectionState = false;
     this.selectedBox.selected = false;
   }
