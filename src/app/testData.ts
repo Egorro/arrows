@@ -1,11 +1,15 @@
-import { Gates } from './box';
+import { Gates } from './model/box';
+import { Index } from './model/index.model';
+
 
 export const data = [
   {
-    name: 'Universe', boxes: ['U.Fixed Set', 'U.Custom Rules', 'U.Index Committee'],
+    name: 'Universe',
+    boxes: ['U.Fixed Set', 'U.Custom Rules', 'U.Index Committee'],
   },
   {
-    name: 'Portfolio Method', boxes: [
+    name: 'Portfolio Method',
+    boxes: [
       'P.EqualWeight',
       'P.FixedWeight',
       'P.FactorChooser',
@@ -13,12 +17,14 @@ export const data = [
     ],
   },
   {
-    name: 'Market Data', boxes: ['MD.EOD', 'MD.Fixing'],
+    name: 'Market Data',
+    boxes: ['MD.EOD', 'MD.Fixing'],
   },
   { name: 'Corporate Actions', boxes: ['CA.Dividends', 'CA.Exeptions Rule'] },
   { name: 'Risk Features ', boxes: ['RF.Volatility Control'] },
   {
-    name: 'Measurements', boxes: [
+    name: 'Measurements',
+    boxes: [
       'M.Performance Inst',
       'M.Performance Bsk',
       'M.Total Return',
@@ -46,4 +52,17 @@ export const defaultBoxes = [
     gates: [{ name: 'output' }] as Gates,
   },
   { name: 'P.FactorChooser', position: { x: 451, y: 73 } },
+];
+
+export const indexes: Index[] = [
+  { name: 'SBERARDF' },
+  { name: 'SBERAUTO' },
+  { name: 'SBERBPFA' },
+  { name: 'SBERCCPP' },
+  { name: 'SBERECCY' },
+  { name: 'SBERHLCR' },
+  { name: 'SBERPRPT' },
+  { name: 'SBERRBTI' },
+  { name: 'SBERREIT' },
+  { name: 'SBERREQA' },
 ];

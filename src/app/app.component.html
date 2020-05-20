@@ -3,14 +3,7 @@
     <div class="example-container">
       <p-card [style]="{ 'background-color': 'rgb(123, 166, 91)' }">
         <h2>Indices</h2>
-        <div class="metablocks">
-          <div class="metablocks-item">SBERCCPP</div>
-          <div class="metablocks-item">SBERECCY</div>
-          <div class="metablocks-item">SBERRBTI</div>
-          <div class="metablocks-item">SBERREIT</div>
-          <div class="metablocks-item">SBERBPFA</div>
-          <div class="metablocks-item">SBERREQA</div>
-        </div>
+        <p-listbox [options]="indexes" [(ngModel)]="selectedIndex" optionLabel='name'></p-listbox>
       </p-card>
     </div>
     <p-card

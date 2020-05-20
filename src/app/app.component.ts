@@ -6,10 +6,11 @@ import {
   AfterViewInit,
   HostListener,
 } from '@angular/core';
-import { Box, Task, Point } from './box';
+import { Box, Task, Point } from './model/box';
 import { CdkDragDrop, CdkDragStart } from '@angular/cdk/drag-drop';
 import { BoxService } from './services/box.service';
 import { TaskService } from './services/task.service';
+import { Index } from './model/index.model';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   boxes: Box[];
   selectedBox: Box;
   connectionState: boolean;
+  selectedIndex: Index;
+  indexes: Index[];
 
   constructor(
     private boxService: BoxService,
@@ -32,6 +35,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.boxService.getBoxes().subscribe((boxes) => (this.boxes = boxes));
     this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks));
+    this.taskService.getIndexes().subscribe(indexes => {
+      this.indexes = indexes;
+      this.selectedIndex = this.indexes[0];
+    });
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent) {

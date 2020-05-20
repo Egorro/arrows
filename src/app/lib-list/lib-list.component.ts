@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Box } from '../box';
+import { Box } from '../model/box';
 
 @Component({
   selector: 'app-lib-list',
