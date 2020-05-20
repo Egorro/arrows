@@ -9,6 +9,7 @@ import { Box, BoxLink } from '../box';
 export class BlockParametersComponent implements OnInit {
   @Input() box: Box;
   @Output() connection: EventEmitter<any> = new EventEmitter();
+  @Output() deleteBlock: EventEmitter<string> = new EventEmitter();
 
   constructor() { }
 
@@ -30,6 +31,10 @@ export class BlockParametersComponent implements OnInit {
 
   deleteLink(link: BoxLink) {
     this.box.deleteLinkWithLink(link);
+  }
+
+  onDeleteBlock() {
+    this.deleteBlock.emit(this.box.id);
   }
 
 }

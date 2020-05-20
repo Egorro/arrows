@@ -1,30 +1,42 @@
 <p-card>
   <h2>Block Parameters</h2>
   <div *ngIf="box">
-    <p>box name: {{ box.name }}</p>
-    links:
-    <ul>
-      <li
-        *ngFor="let linksBox of box.links"
-        (mouseenter)="highlightArrow(linksBox.arrow)"
-        (mouseleave)="defaultingArrow(linksBox.arrow)"
-      >
-        {{ linksBox.box.name }}
-        <button class="ui-button-raised ui-button-danger"
-        style="font-size: 9px;"
-        pButton
-        icon="pi pi-trash"
-        (click)="deleteLink(linksBox)"
-        ></button>
-      </li>
-    </ul>
+    <p>Название блока: {{ box.name }}</p>
+    <ng-container *ngIf="box.links.length">
+      links:
+      <ul class="links-list">
+        <li
+          *ngFor="let linksBox of box.links"
+          (mouseenter)="highlightArrow(linksBox.arrow)"
+          (mouseleave)="defaultingArrow(linksBox.arrow)"
+        >
+          {{ linksBox.box.name }}
+          <button
+            class="ui-button-raised ui-button-danger"
+            style="font-size: 9px;"
+            pButton
+            icon="pi pi-trash"
+            (click)="deleteLink(linksBox)"
+          ></button>
+        </li>
+      </ul>
+    </ng-container>
     <div class="actions">
       <button
         pButton
         type="button"
-        label="Connection block to"
+        label="Установить связь"
         class="ui-button-raised"
+        icon="pi pi-arrow-right"
         (click)="connect()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Удалить блок"
+        class="ui-button-raised ui-button-danger"
+        icon="pi pi-trash"
+        (click)="onDeleteBlock()"
       ></button>
     </div>
   </div>

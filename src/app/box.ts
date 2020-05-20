@@ -35,15 +35,23 @@ export class Box {
   links: BoxLink[] = [];
 
   deleteLinkWithLink(link: BoxLink) {
-    link.box.deleteLinkWithBox(this);
+    link.box.deleteLinkWithId(this.id);
     link.arrow.remove();
+
     const index = this.links.indexOf(link);
     this.links.splice(index, 1);
   }
 
-  deleteLinkWithBox(box: Box) {
-    const index = this.links.findIndex(link => link.box === box);
+  deleteLinkWithId(id: string) {
+    const index = this.links.findIndex(link => link.box.id === id);
+
     this.links.splice(index, 1);
+  }
+
+  deleteAllLinks() {
+    while (this.links.length) {
+      this.deleteLinkWithLink(this.links[0]);
+    }
   }
 }
 

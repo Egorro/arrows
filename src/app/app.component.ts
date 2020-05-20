@@ -178,4 +178,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   runBox(box: Box) {
     console.log('run:', box);
   }
+
+  onDeleteBlock(id: string) {
+    const deletedIndex = this.boxes.findIndex(box => box.id === id);
+    console.log('delete box:', this.boxes[deletedIndex]);
+    this.boxes[deletedIndex].deleteAllLinks();
+    this.boxes.splice(deletedIndex, 1);
+  }
 }
