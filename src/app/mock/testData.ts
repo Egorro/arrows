@@ -1,5 +1,5 @@
-import { Gates } from './model/box';
-import { Index } from './model/index.model';
+import { Gates } from '../model/box';
+import { Index } from '../model/index.model';
 
 
 export const data = [

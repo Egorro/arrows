@@ -4,13 +4,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
-import { LibListComponent } from './lib-list/lib-list.component';
-import { PrimeNgModulesModule } from './prime-ng-modules/prime-ng-modules.module';
-import { BlockParametersComponent } from './block-parameters/block-parameters.component';
+import { LibListComponent } from './components/lib-list/lib-list.component';
+import { PrimeNgModulesModule } from './modules/prime-ng-modules/prime-ng-modules.module';
+import { BlockParametersComponent } from './components/block-parameters/block-parameters.component';
 import { FormsModule } from '@angular/forms';
+import { BoxComponent } from './components/box/box.component';
 
 @NgModule({
-  declarations: [AppComponent, LibListComponent, BlockParametersComponent],
+  declarations: [AppComponent, LibListComponent, BlockParametersComponent, BoxComponent],
   imports: [
     BrowserModule,
     FormsModule,

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Box, BoxLink } from '../model/box';
+import { Box, BoxLink } from '../../model/box';
 
 @Component({
   selector: 'app-block-parameters',
