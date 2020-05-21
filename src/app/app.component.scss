@@ -22,6 +22,14 @@ h2 {
   border-radius: 3px;
 }
 
+.step {
+  margin-left: 30px;
+  margin-top: 30px;
+  width: 160px;
+  height: 600px;
+  border: 1px solid black;
+}
+
 .canvas-container {
   width: 1200px;
   height: 800px;
@@ -29,6 +37,7 @@ h2 {
 }
 
 .canvas {
+  display: flex;
   width: 100%;
   height: 100%;
 }
@@ -45,6 +54,7 @@ h2 {
 }
 
 .box {
+  position: absolute;
   display: flex;
   flex-direction: column;
   padding: 5px;

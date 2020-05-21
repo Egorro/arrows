@@ -3,7 +3,11 @@
     <div class="example-container">
       <p-card [style]="{ 'background-color': 'rgb(123, 166, 91)' }">
         <h2>Indices</h2>
-        <p-listbox [options]="indexes" [(ngModel)]="selectedIndex" optionLabel='name'></p-listbox>
+        <p-listbox
+          [options]="indexes"
+          [(ngModel)]="selectedIndex"
+          optionLabel="name"
+        ></p-listbox>
       </p-card>
     </div>
     <p-card
@@ -23,12 +27,15 @@
               class="metablocks-item"
               *ngFor="let item of task.boxNames"
               cdkDrag
-              (cdkDragDropped)="drop($event)"
+              (cdkDragDropped)="dropFromLib($event)"
+              (cdkDragStarted)="dragStart($event)"
               (cdkDragEntered)="entered($event)"
+              (cdkDragMoved)="movedFromLib($event)"
+              (cdkDragEnded)="endedFromLib($event)"
             >
               {{ item }}
               <div class="box border" *cdkDragPreview>
-                <div class="box__handle" cdkDragHandle>
+                <div class="box__handle">
                   {{ item }}
                 </div>
                 <div class="box__buttons">
@@ -59,14 +66,21 @@
     </p-card>
   </div>
   <div class="card m-l-20" style="height: 800px;">
-    <div class="canvas-container" (mousewheel)="onScroll($event)">
-      <div class="canvas__drag" cdkDrag>
+    <!-- <div class="canvas-container" (mousewheel)="onScroll($event)"> -->
+    <div class="canvas-container">
+      <!-- <div class="canvas__drag" cdkDrag> -->
+      <div class="canvas__drag">
         <div
           class="canvas"
           #canvas
           (click)="onCanvasClick($event)"
           [style.transform]="'scale(' + scale + ')'"
         >
+          <div
+            class="step"
+            ngClass="{{ 'step' + (i + 1) }}"
+            *ngFor="let step of steps; index as i"
+          ></div>
           <div
             class="box-element box border"
             [ngClass]="{ box_selected: box.selected }"
@@ -77,8 +91,9 @@
             (cdkDragStarted)="handleDragStart($event, box)"
             (click)="selectBox($event, box)"
             (cdkDragMoved)="movedBox($event, box)"
-            (cdkDragDropped)="drop($event)"
+            (cdkDragDropped)="drop2($event)"
             (cdkDragEntered)="entered($event)"
+            (cdkDragEnded)="ended($event, box)"
           >
             <div class="box__handle" cdkDragHandle>
               {{ box.name }}

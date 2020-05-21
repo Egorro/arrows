@@ -1,4 +1,4 @@
-import { Gates } from '../model/box';
+import { Gates } from '../model/box.model';
 import { Index } from '../model/index.model';
 
 

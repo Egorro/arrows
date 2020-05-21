@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { data, indexes } from '../mock/testData';
-import { Task } from '../model/box';
+import { Task } from '../model/box.model';
 import { Observable, of } from 'rxjs';
 import { Index } from '../model/index.model';
 

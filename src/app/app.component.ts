@@ -4,13 +4,18 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
-  HostListener,
 } from '@angular/core';
-import { Box, Task, Point } from './model/box';
-import { CdkDragDrop, CdkDragStart } from '@angular/cdk/drag-drop';
+import { Box, Task, Point } from './model/box.model';
+import {
+  CdkDragDrop,
+  CdkDragStart,
+  CdkDragEnd,
+  CdkDragMove,
+} from '@angular/cdk/drag-drop';
 import { BoxService } from './services/box.service';
 import { TaskService } from './services/task.service';
 import { Index } from './model/index.model';
+import { Step } from './model/step.model';
 
 @Component({
   selector: 'app-root',
@@ -19,13 +24,18 @@ import { Index } from './model/index.model';
 })
 export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('endArrow') endArrow: ElementRef;
+  @ViewChild('canvas') canvas: ElementRef;
   scale = 1;
   tasks: Task[];
-  boxes: Box[];
+  get boxes(): Box[] {
+    return this.steps.reduce((acc, step) => acc.concat(step.boxes), []);
+  }
+  boxes2: Box[];
   selectedBox: Box;
   connectionState: boolean;
   selectedIndex: Index;
   indexes: Index[];
+  steps: Step[];
 
   constructor(
     private boxService: BoxService,
@@ -33,30 +43,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.boxService.getBoxes().subscribe((boxes) => (this.boxes = boxes));
+    this.steps = Array.from({ length: 5 }).map(
+      (_, i) => new Step({ xStart: i * 190, xEnd: (i + 1) * 190 })
+    );
+    console.log(this.steps);
+    // this.boxService.getBoxes().subscribe((boxes) => (this.boxes = boxes));
     this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks));
-    this.taskService.getIndexes().subscribe(indexes => {
+    this.taskService.getIndexes().subscribe((indexes) => {
       this.indexes = indexes;
       this.selectedIndex = this.indexes[0];
     });
-  }
-
-  @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent) {
-    const element = this.endArrow.nativeElement;
-    const shiftX = event.clientX - element.getBoundingClientRect().left;
-    const shiftY = event.clientY - element.getBoundingClientRect().top;
-
-    element.style.position = 'absolute';
-    element.style.zIndex = 1000;
-    document.body.append(element);
-
-    moveAt(event.pageX, event.pageY);
-    // this.currentBox.arrow.position();
-
-    function moveAt(pageX: number, pageY: number) {
-      element.style.left = pageX - shiftX + 'px';
-      element.style.top = pageY - shiftY + 'px';
-    }
   }
 
   ngAfterViewInit() {}
@@ -139,22 +135,47 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.selectedBox.selected = false;
   }
 
-  drop(event: CdkDragDrop<Box>) {
+  dragStart(event: CdkDragStart) {
+    console.log('dragStart:', event);
+  }
+
+  movedFromLib(event: CdkDragMove) {
+    // console.log(event);
+  }
+
+  endedFromLib(event: CdkDragEnd) {
+    // console.log('ended from lib:', event);
+  }
+
+  dropFromLib(event: CdkDragDrop<Box>) {
+    console.log('drop from lib:', event);
+    // debugger;
     const element = event.item.element.nativeElement;
     const { offsetLeft, offsetTop } = element;
     const { x, y } = event.distance;
     const positionX = offsetLeft + x;
     const positionY = offsetTop + y;
-    const newX = positionX - 180;
-    const newY = positionY - 68 * this.boxes.length;
-    const point: Point = {
-      x: newX,
-      y: newY,
-    };
+    const canvasX = positionX - this.canvas.nativeElement.offsetLeft;
+    const canvasY = positionY - this.canvas.nativeElement.offsetTop;
+
+    const currentStep: Step = this.defineStepWithPosition({
+      x: canvasX,
+      y: canvasY,
+    });
+
+    const point: Point = this.boxPointForStep(currentStep, canvasY);
     const boxName = event.container.data[event.currentIndex];
     const newBox = this.boxService.createNewBox(boxName, point, null);
+
+    currentStep.boxes.push(newBox);
+
     console.log('added new box:', newBox);
-    this.boxes.push(newBox);
+    // this.boxes.push(newBox);
+    console.log(this.steps);
+  }
+
+  drop2(event) {
+    console.log('drop2');
   }
 
   setPosition() {
@@ -169,8 +190,35 @@ export class AppComponent implements OnInit, AfterViewInit {
     console.log('entered', event);
   }
 
-  movedBox(event: MouseEvent, box: Box) {
-    console.log('moved', box);
+  enterIntoCanvas(event) {
+    console.log(event);
+  }
+
+  ended(event: CdkDragEnd, box: Box) {
+    const { x: deltaX, y: deltaY } = event.distance;
+    box.position = { x: box.position.x + deltaX, y: box.position.y + deltaY };
+    console.log('event:', event, 'box:', box);
+  }
+
+  private defineStepWithPosition(point: Point): Step {
+    return this.steps.find((step) => point.x < step.position.xEnd);
+  }
+
+  private boxPointForStep(step: Step, y: number): Point {
+    const marginLeft = 40;
+
+    return {
+      x: step.position.xStart + marginLeft,
+      y,
+    };
+  }
+
+  mouseUp(event) {
+    console.log(event);
+  }
+
+  movedBox(event: CdkDragMove, box: Box) {
+    // console.log('moved:', event.distance, 'box:', box.position);
     box.links.forEach(({ arrow }) => arrow.position());
   }
 
@@ -187,7 +235,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   onDeleteBlock(id: string) {
-    const deletedIndex = this.boxes.findIndex(box => box.id === id);
+    const deletedIndex = this.boxes.findIndex((box) => box.id === id);
     console.log('delete box:', this.boxes[deletedIndex]);
     this.boxes[deletedIndex].deleteAllLinks();
     this.boxes.splice(deletedIndex, 1);

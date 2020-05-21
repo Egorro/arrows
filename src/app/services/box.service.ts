@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
 import { defaultBoxes } from '../mock/testData';
-import { Box, Point, Gates } from '../model/box';
+import { Box, Point, Gates } from '../model/box.model';
 import { IdGeneratorService } from './id-generator.service';
 
 @Injectable({
