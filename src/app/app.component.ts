@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.steps = Array.from({ length: 5 }).map(
-      (_, i) => new Step({ xStart: i * 190, xEnd: (i + 1) * 190 })
+      (_, i) => new Step({ xStart: i * 210, xEnd: (i + 1) * 210 })
     );
     console.log(this.steps);
     // this.boxService.getBoxes().subscribe((boxes) => (this.boxes = boxes));
@@ -141,29 +141,41 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   movedFromLib(event: CdkDragMove) {
     // console.log(event);
+    const element = event.source.element.nativeElement;
+    const canvasPoint = this.pointFromLibOnCanvas(event.distance, element);
+    // console.log(canvasPoint);
+    canvasPoint.x += 50; // hardcode!!!
+    this.highlightStep(canvasPoint);
+    // const currentStep: Step = this.defineStepWithPosition(canvasPoint);
+  }
+
+  deleteBoxFromStep() {
+
   }
 
   endedFromLib(event: CdkDragEnd) {
     // console.log('ended from lib:', event);
   }
 
-  dropFromLib(event: CdkDragDrop<Box>) {
-    console.log('drop from lib:', event);
-    // debugger;
-    const element = event.item.element.nativeElement;
-    const { offsetLeft, offsetTop } = element;
-    const { x, y } = event.distance;
+  private pointFromLibOnCanvas(distance: Point, el: HTMLElement): Point {
+    const { offsetLeft, offsetTop } = el;
+    const { x, y } = distance;
     const positionX = offsetLeft + x;
     const positionY = offsetTop + y;
     const canvasX = positionX - this.canvas.nativeElement.offsetLeft;
     const canvasY = positionY - this.canvas.nativeElement.offsetTop;
+    // console.log({x: canvasX, y: canvasY});
+    return {x: canvasX, y: canvasY};
+  }
 
-    const currentStep: Step = this.defineStepWithPosition({
-      x: canvasX,
-      y: canvasY,
-    });
+  dropFromLib(event: CdkDragDrop<Box>) {
+    console.log('drop from lib:', event);
+    // debugger;
+    const element = event.item.element.nativeElement;
+    const canvasPoint = this.pointFromLibOnCanvas(event.distance, element);
+    const currentStep: Step = this.defineStepWithPosition(canvasPoint);
 
-    const point: Point = this.boxPointForStep(currentStep, canvasY);
+    const point: Point = this.boxPointForStep(currentStep, canvasPoint.y);
     const boxName = event.container.data[event.currentIndex];
     const newBox = this.boxService.createNewBox(boxName, point, null);
 
@@ -172,6 +184,37 @@ export class AppComponent implements OnInit, AfterViewInit {
     console.log('added new box:', newBox);
     // this.boxes.push(newBox);
     console.log(this.steps);
+    console.log(JSON.stringify(this.steps));
+  }
+
+  movedBox(event: CdkDragMove, box: Box) {
+    // console.log('moved:', event, 'box:', box.position);
+    const point: Point = {x: box.position.x + event.distance.x, y: box.position.y + event.distance.y};
+    console.log(point);
+    this.highlightStep(point);
+    box.links.forEach(({ arrow }) => arrow.position());
+  }
+
+  ended(event: CdkDragEnd, box: Box) {
+    const { x: deltaX, y: deltaY } = event.distance;
+    const point: Point = { x: box.position.x + deltaX, y: box.position.y + deltaY };
+    const currentStep = this.getCurrentStep(point);
+    const pointForStep = this.boxPointForStep(currentStep, point.y);
+    box.position = pointForStep;
+    currentStep.boxes.push(box);
+    console.log('event:', event, 'box:', box);
+  }
+
+  private highlightStep(point: Point) {
+    this.steps.forEach(step => {
+      step.highlight = point.x < step.position.xEnd && point.x > step.position.xStart;
+    });
+  }
+
+  private getCurrentStep(point: Point): Step {
+    return this.steps.find(step => {
+      step.highlight = point.x < step.position.xEnd && point.x > step.position.xStart;
+    });
   }
 
   drop2(event) {
@@ -194,18 +237,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     console.log(event);
   }
 
-  ended(event: CdkDragEnd, box: Box) {
-    const { x: deltaX, y: deltaY } = event.distance;
-    box.position = { x: box.position.x + deltaX, y: box.position.y + deltaY };
-    console.log('event:', event, 'box:', box);
-  }
-
   private defineStepWithPosition(point: Point): Step {
     return this.steps.find((step) => point.x < step.position.xEnd);
   }
 
   private boxPointForStep(step: Step, y: number): Point {
-    const marginLeft = 40;
+    const marginLeft = 60;
 
     return {
       x: step.position.xStart + marginLeft,
@@ -215,11 +252,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   mouseUp(event) {
     console.log(event);
-  }
-
-  movedBox(event: CdkDragMove, box: Box) {
-    // console.log('moved:', event.distance, 'box:', box.position);
-    box.links.forEach(({ arrow }) => arrow.position());
   }
 
   editBox(box: Box) {

@@ -77,8 +77,8 @@
           [style.transform]="'scale(' + scale + ')'"
         >
           <div
-            class="step"
-            ngClass="{{ 'step' + (i + 1) }}"
+            class="step {{ 'step' + (i + 1) }}"
+            [ngClass]="{highlight: step.highlight}"
             *ngFor="let step of steps; index as i"
           ></div>
           <div
