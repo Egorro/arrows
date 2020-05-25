@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="">
+  <div class="left-col">
     <div class="example-container">
       <p-card [style]="{ height: '260px' }">
         <h2 style="color: #333333;">Indices</h2>
@@ -68,7 +68,7 @@
       </p-accordion>
     </p-card>
   </div>
-  <div class="m-l-10">
+  <div class="center-col m-l-10">
     <div class="card" style="height: 75px; padding: 20px;">
       <button
         class="ui-button-raised"
@@ -140,10 +140,12 @@
       </div>
     </div>
   </div>
-  <app-block-parameters
-    [box]="selectedBox"
-    (connection)="connection()"
-    (deleteBlock)="onDeleteBlock($event)"
-  ></app-block-parameters>
+  <div class="right-col m-l-10">
+    <app-block-parameters
+      [box]="selectedBox"
+      (connection)="connection()"
+      (deleteBlock)="onDeleteBlock($event)"
+    ></app-block-parameters>
+  </div>
 </div>
 <div class="end-arrow" #endArrow></div>

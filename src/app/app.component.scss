@@ -1,5 +1,24 @@
+
+$leftColWidth: 210px;
+$rightColWidth: 300px;
+
 .container {
   display: flex;
+  padding: 8px;
+}
+
+.left-col {
+  width: 210px;
+}
+
+.center-col {
+  $margins: 36px;
+  flex-grow: 1;
+  width: calc(100vw - #{$leftColWidth} - #{$rightColWidth} - #{$margins});
+}
+
+.right-col {
+  min-width: 300px;
 }
 
 h2 {
@@ -27,6 +46,7 @@ h2 {
   margin-left: 10px;
   height: 100%;
   width: 200px;
+  min-width: 200px;
   background-color: rgba(215, 215, 215, 0.55);
     border-radius: 3px;
   &.highlight {
@@ -35,7 +55,6 @@ h2 {
 }
 
 .canvas-container {
-  width: 1125px;
   height: 400px;
   overflow: hidden;
 }
@@ -50,7 +69,6 @@ h2 {
 }
 
 .canvas__drag {
-  width: 1125px;
   height: 400px;
   cursor: move;
 }
