@@ -16,6 +16,7 @@ import { BoxService } from './services/box.service';
 import { TaskService } from './services/task.service';
 import { Index } from './model/index.model';
 import { Step } from './model/step.model';
+import { StepService } from './services/step.service';
 
 @Component({
   selector: 'app-root',
@@ -39,13 +40,23 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   constructor(
     private boxService: BoxService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private stepsSevice: StepService,
   ) {}
 
   ngOnInit() {
-    this.steps = Array.from({ length: 5 }).map(
-      (_, i) => new Step({ xStart: i * 210, xEnd: (i + 1) * 210 })
-    );
+    // this.steps = Array.from({ length: 5 }).map(
+    //   (_, i) => new Step({ xStart: i * 210, xEnd: (i + 1) * 210 })
+    // );
+    this.stepsSevice.getSteps().subscribe(steps => {
+      if (steps.length) {
+        this.steps = steps;
+      } else {
+        const step = this.stepsSevice.createStep();
+        step.setPosition(0);
+        this.steps = [step];
+      }
+    });
     console.log(this.steps);
     // this.boxService.getBoxes().subscribe((boxes) => (this.boxes = boxes));
     this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks));
@@ -59,6 +70,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   fixScale() {
     this.scale = 1;
+  }
+
+  addStep() {
+    const newStep = this.stepsSevice.createStep();
+    newStep.setPosition(this.steps.length);
+    this.steps.push(newStep);
   }
 
   onScroll(event: WheelEvent) {
@@ -182,12 +199,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     const element = event.item.element.nativeElement;
     const canvasPoint = this.pointFromLibOnCanvas(event.distance, element);
     const currentStep: Step = this.defineStepWithPosition(canvasPoint);
-
     const point: Point = this.boxPointForStep(currentStep, canvasPoint.y);
     const boxName = event.container.data[event.currentIndex];
-    const newBox = this.boxService.createNewBox(boxName, point, null);
+    const newBox = this.boxService.createNewBox(boxName, point, currentStep.id);
 
     currentStep.boxes.push(newBox);
+    currentStep.highlight = false;
 
     console.log('added new box:', newBox);
     // this.boxes.push(newBox);
@@ -250,7 +267,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private boxPointForStep(step: Step, y: number): Point {
-    const marginLeft = 60;
+    const marginLeft = 43; // todo: hardcode
 
     return {
       x: step.position.xStart + marginLeft,
@@ -266,18 +283,23 @@ export class AppComponent implements OnInit, AfterViewInit {
     console.log('edit:', box);
   }
 
-  applyBox(box: Box) {
-    console.log('apply:', box);
+  connectBox(event: MouseEvent, box: Box) {
+    this.selectBox(event, box);
+    this.connection();
   }
 
   runBox(box: Box) {
     console.log('run:', box);
   }
 
-  onDeleteBlock(id: string) {
-    const deletedIndex = this.boxes.findIndex((box) => box.id === id);
-    console.log('delete box:', this.boxes[deletedIndex]);
-    this.boxes[deletedIndex].deleteAllLinks();
-    this.boxes.splice(deletedIndex, 1);
+  onDeleteBlock(box: Box) {
+    const {stepId, id: currentBoxId} = box;
+    const currentStep = this.steps.find(step => step.id === stepId);
+    currentStep.deleteBox(box);
+
+    // const deletedIndex = this.boxes.findIndex((box) => box.id === currentBoxId);
+    console.log('delete box:', box);
+    // this.boxes[deletedIndex].deleteAllLinks();
+    // this.boxes.splice(deletedIndex, 1);
   }
 }

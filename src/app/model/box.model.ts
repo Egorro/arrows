@@ -27,7 +27,9 @@ export class Box {
     public position: Point = { x: 0, y: 0 },
     public gates: Gates = [],
     public id: string,
+    public stepId: string,
   ) {}
+
   dragging: boolean;
   selected: boolean;
   private arrows: any[] = [];

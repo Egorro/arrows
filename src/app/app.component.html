@@ -2,19 +2,21 @@
   <div class="">
     <div class="example-container">
       <p-card [style]="{ height: '260px' }">
-        <h2 style="color: #333333">Indices</h2>
+        <h2 style="color: #333333;">Indices</h2>
         <p-listbox
           [options]="indexes"
           [(ngModel)]="selectedIndex"
           filter="filter"
           optionLabel="name"
-          [listStyle]="{'max-height':'120px', 'font-size': '13.6px', 'width': '100%'}"
+          [listStyle]="{
+            'max-height': '120px',
+            'font-size': '13.6px',
+            width: '100%'
+          }"
         ></p-listbox>
       </p-card>
     </div>
-    <p-card
-      [styleClass]="'m-t-10'"
-    >
+    <p-card [styleClass]="'m-t-10'">
       <h2>Task Library</h2>
       <p-accordion>
         <p-accordionTab *ngFor="let task of tasks" [header]="task.name">
@@ -41,9 +43,9 @@
                 </div>
                 <div class="box__buttons">
                   <button
-                    class="ui-button-raised ui-button-warning"
+                    class="ui-button-raised ui-button-secondary"
                     pButton
-                    icon="pi pi-pencil"
+                    icon="pi pi-arrow-right"
                   ></button>
                   <button
                     class="ui-button-raised ui-button-success"
@@ -67,69 +69,77 @@
     </p-card>
   </div>
   <div class="m-l-10">
-  <div class="card" style="height: 75px;"></div>
-  <div class="card" style="height: 400px; margin-top: 5px;">
-    <!-- <div class="canvas-container" (mousewheel)="onScroll($event)"> -->
-    <div class="canvas-container">
-      <!-- <div class="canvas__drag" cdkDrag> -->
-      <div class="canvas__drag">
-        <div
-          class="canvas"
-          #canvas
-          (click)="onCanvasClick($event)"
-          [style.transform]="'scale(' + scale + ')'"
-        >
+    <div class="card" style="height: 75px; padding: 20px;">
+      <button
+        class="ui-button-raised"
+        (click)="addStep()"
+        type="button"
+        pButton
+        label="Add step"
+      ></button>
+    </div>
+    <div class="card" style="height: 400px; margin-top: 5px;">
+      <!-- <div class="canvas-container" (mousewheel)="onScroll($event)"> -->
+      <div class="canvas-container">
+        <!-- <div class="canvas__drag" cdkDrag> -->
+        <div class="canvas__drag">
           <div
-            class="step {{ 'step' + (i + 1) }}"
-            [ngClass]="{highlight: step.highlight}"
-            *ngFor="let step of steps; index as i"
-          ></div>
-          <div
-            class="box-element box border"
-            [ngClass]="{ box_selected: box.selected }"
-            *ngFor="let box of boxes"
-            cdkDrag
-            cdkDragBoundary=".canvas-container"
-            [cdkDragFreeDragPosition]="box.position"
-            (cdkDragStarted)="handleDragStart($event, box)"
-            (click)="selectBox($event, box)"
-            (cdkDragMoved)="movedBox($event, box)"
-            (cdkDragDropped)="drop2($event)"
-            (cdkDragEntered)="entered($event)"
-            (cdkDragEnded)="ended($event, box)"
+            class="canvas"
+            #canvas
+            (click)="onCanvasClick($event)"
+            [style.transform]="'scale(' + scale + ')'"
           >
-            <div class="box__handle" cdkDragHandle>
-              {{ box.name }}
-            </div>
-            <div class="box__buttons">
-              <button
-                class="ui-button-raised ui-button-success"
-                (click)="applyBox(box)"
-                pButton
-                icon="pi pi-check"
-              ></button>
-              <button
-                class="ui-button-raised"
-                (click)="runBox(box)"
-                pButton
-                icon="pi pi-play"
-              ></button>
-              <button
-                class="ui-button-raised ui-button-danger"
-                (click)="onDeleteBlock(box.id)"
-                pButton
-                icon="pi pi-trash"
-              ></button>
-            </div>
-            <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
+            <div
+              class="step {{ 'step' + (i + 1) }}"
+              [ngClass]="{ highlight: step.highlight }"
+              *ngFor="let step of steps; index as i"
+            ></div>
+            <div
+              class="box-element box border"
+              [ngClass]="{ box_selected: box.selected }"
+              *ngFor="let box of boxes"
+              cdkDrag
+              cdkDragBoundary=".canvas-container"
+              [cdkDragFreeDragPosition]="box.position"
+              (cdkDragStarted)="handleDragStart($event, box)"
+              (click)="selectBox($event, box)"
+              (cdkDragMoved)="movedBox($event, box)"
+              (cdkDragDropped)="drop2($event)"
+              (cdkDragEntered)="entered($event)"
+              (cdkDragEnded)="ended($event, box)"
+            >
+              <div class="box__handle" cdkDragHandle>
+                {{ box.name }}
+              </div>
+              <div class="box__buttons">
+                <button
+                  class="ui-button-raised ui-button-secondary"
+                  (click)="connectBox($event, box)"
+                  pButton
+                  icon="pi pi-arrow-right"
+                ></button>
+                <button
+                  class="ui-button-raised"
+                  (click)="runBox(box)"
+                  pButton
+                  icon="pi pi-play"
+                ></button>
+                <button
+                  class="ui-button-raised ui-button-danger"
+                  (click)="onDeleteBlock(box)"
+                  pButton
+                  icon="pi pi-trash"
+                ></button>
+              </div>
+              <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
               {{ gate.name }}
             </div> -->
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
   <app-block-parameters
     [box]="selectedBox"
     (connection)="connection()"
