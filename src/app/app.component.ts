@@ -120,7 +120,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private drawArrow(startBox: Box, endBox: Box): any {
-    return new LeaderLine(startBox.nativeElement, endBox.nativeElement);
+    const arrow = new LeaderLine(startBox.nativeElement, endBox.nativeElement);
+    arrow.setOptions({
+      startPlug: 'square',
+      endPlug: 'arrow3',
+      color: 'gray',
+      size: 2,
+      path: 'grid',
+    });
+    return arrow;
   }
 
   onCanvasClick(event: MouseEvent) {
@@ -144,7 +152,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     const element = event.source.element.nativeElement;
     const canvasPoint = this.pointFromLibOnCanvas(event.distance, element);
     // console.log(canvasPoint);
-    canvasPoint.x += 50; // hardcode!!!
+    // canvasPoint.x += 50; // hardcode!!!
     this.highlightStep(canvasPoint);
     // const currentStep: Step = this.defineStepWithPosition(canvasPoint);
   }

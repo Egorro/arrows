@@ -3,7 +3,7 @@
 }
 
 h2 {
-  color: #fff;
+  color: #333333;
 }
 
 .library {
@@ -15,7 +15,7 @@ h2 {
 }
 
 .card {
-  background-color: #bababa;
+  background-color: #fff;
   color: #333333;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
     0 2px 1px -1px rgba(0, 0, 0, 0.12);
@@ -23,32 +23,33 @@ h2 {
 }
 
 .step {
-  margin-left: 50px;
+  margin-left: 10px;
   margin-top: 30px;
-  width: 160px;
-  background-color: rgba(255, 255, 255, 0.55);
-    border-radius: 20px;
+  width: 200px;
+  background-color: rgba(215, 215, 215, 0.55);
+    border-radius: 3px;
   &.highlight {
     background-color: rgba(255, 255, 255, 0.8);
   }
 }
 
 .canvas-container {
-  width: 1200px;
-  height: 800px;
+  width: 1125px;
+  height: 400px;
   overflow: hidden;
 }
 
 .canvas {
   display: flex;
+  padding-left: 20px;
   padding-bottom: 30px;
   width: 100%;
   height: 100%;
 }
 
 .canvas__drag {
-  width: 1200px;
-  height: 800px;
+  width: 1125px;
+  height: 400px;
   cursor: move;
 }
 

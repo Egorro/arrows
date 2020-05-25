@@ -9,3 +9,26 @@ body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active:
   background-color: #48657b;
   color: #ffffff;
 }
+
+body .ui-accordion .ui-accordion-header a {
+  background-color: #fff;
+}
+
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #000000;
+  border: 1px solid #6b8aa2;
+  color: #ffffff;
+}
+
+.ui-card-content h2 {
+  font-size: 15.2px;
+  color: #333333;
+}
+
+body .ui-listbox .ui-listbox-list .ui-listbox-item.ui-state-highlight {
+  background-color: #000000;
+}
+
+body .ui-listbox {
+  width: 182px;
+}
