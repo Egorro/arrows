@@ -16,7 +16,7 @@
         ></p-listbox>
       </p-card>
     </div>
-    <p-card [styleClass]="'m-t-10'">
+    <p-card class="library-block m-t-10" [styleClass]="'h-100'">
       <h2>Task Library</h2>
       <p-accordion>
         <p-accordionTab *ngFor="let task of tasks" [header]="task.name">
@@ -138,6 +138,14 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="bottom-blocks">
+      <p-card class="table-block">
+        <div class="table"></div>
+      </p-card>
+      <p-card class="chart-block">
+        <div class="chart"></div>
+      </p-card>
     </div>
   </div>
   <div class="right-col m-l-10">

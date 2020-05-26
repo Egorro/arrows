@@ -8,6 +8,8 @@ $rightColWidth: 300px;
 }
 
 .left-col {
+  display: flex;
+  flex-direction: column;
   width: 210px;
 }
 
@@ -23,6 +25,10 @@ $rightColWidth: 300px;
 
 h2 {
   color: #333333;
+}
+
+.library-block {
+  flex-grow: 1;
 }
 
 .library {
@@ -153,4 +159,22 @@ h2 {
   position: absolute;
   width: 1px;
   height: 1px;
+}
+
+.bottom-blocks {
+  display: flex;
+  margin-top: 5px;
+  .table-block {
+    width: calc(50% - 5px);
+    .table {
+      height: calc(100vh - 502px - 2em);
+    }
+  }
+  .chart-block {
+    margin-left: 10px;
+    width: calc(50% - 5px);
+    .chart{
+      height: calc(100vh - 502px - 2em);
+    }
+  }
 }
