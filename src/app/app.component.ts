@@ -5,18 +5,19 @@ import {
   ElementRef,
   AfterViewInit,
 } from '@angular/core';
-import { Box, Task, Point } from './model/box.model';
+import {Box, Task, Point} from './model/box.model';
 import {
   CdkDragDrop,
   CdkDragStart,
   CdkDragEnd,
   CdkDragMove,
 } from '@angular/cdk/drag-drop';
-import { BoxService } from './services/box.service';
-import { TaskService } from './services/task.service';
-import { Index } from './model/index.model';
-import { Step } from './model/step.model';
-import { StepService } from './services/step.service';
+import {BoxService} from './services/box.service';
+import {TaskService} from './services/task.service';
+import {Index} from './model/index.model';
+import {Step} from './model/step.model';
+import {StepService} from './services/step.service';
+import {MessageService} from 'primeng';
 
 @Component({
   selector: 'app-root',
@@ -28,9 +29,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas') canvas: ElementRef;
   scale = 1;
   tasks: Task[];
+
   get boxes(): Box[] {
     return this.steps.reduce((acc, step) => acc.concat(step.boxes), []);
   }
+
   boxes2: Box[];
   selectedBox: Box;
   connectionState: boolean;
@@ -41,18 +44,20 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(
     private boxService: BoxService,
     private taskService: TaskService,
-    private stepsSevice: StepService,
-  ) {}
+    private stepService: StepService,
+    private messageService: MessageService
+  ) {
+  }
 
   ngOnInit() {
     // this.steps = Array.from({ length: 5 }).map(
     //   (_, i) => new Step({ xStart: i * 210, xEnd: (i + 1) * 210 })
     // );
-    this.stepsSevice.getSteps().subscribe(steps => {
+    this.stepService.getSteps().subscribe(steps => {
       if (steps.length) {
         this.steps = steps;
       } else {
-        const step = this.stepsSevice.createStep();
+        const step = this.stepService.createStep();
         step.setPosition(0);
         this.steps = [step];
       }
@@ -66,14 +71,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+  }
 
   fixScale() {
     this.scale = 1;
   }
 
   addStep() {
-    const newStep = this.stepsSevice.createStep();
+    this.messageService.add({severity: 'success', summary: 'Service Message', detail: 'Via MessageService'});
+    const newStep = this.stepService.createStep();
     newStep.setPosition(this.steps.length);
     this.steps.push(newStep);
   }
@@ -125,8 +132,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   private connectionBlocks(endBox: Box) {
     const arrow = this.drawArrow(this.selectedBox, endBox);
 
-    this.selectedBox.links.push({ box: endBox, arrow });
-    endBox.links.push({ box: this.selectedBox, arrow });
+    this.selectedBox.links.push({box: endBox, arrow});
+    endBox.links.push({box: this.selectedBox, arrow});
 
     this.connectionState = false;
     this.selectedBox.selected = false;
@@ -183,8 +190,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private pointFromLibOnCanvas(distance: Point, el: HTMLElement): Point {
-    const { offsetLeft, offsetTop } = el;
-    const { x, y } = distance;
+    const {offsetLeft, offsetTop} = el;
+    const {x, y} = distance;
     const positionX = offsetLeft + x;
     const positionY = offsetTop + y;
     const canvasX = positionX - this.canvas.nativeElement.offsetLeft;
@@ -217,12 +224,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     const point: Point = {x: box.position.x + event.distance.x, y: box.position.y + event.distance.y};
     console.log(point);
     this.highlightStep(point);
-    box.links.forEach(({ arrow }) => arrow.position());
+    box.links.forEach(({arrow}) => arrow.position());
   }
 
   ended(event: CdkDragEnd, box: Box) {
-    const { x: deltaX, y: deltaY } = event.distance;
-    const point: Point = { x: box.position.x + deltaX, y: box.position.y + deltaY };
+    const {x: deltaX, y: deltaY} = event.distance;
+    const point: Point = {x: box.position.x + deltaX, y: box.position.y + deltaY};
     const currentStep = this.getCurrentStep(point);
     const pointForStep = this.boxPointForStep(currentStep, point.y);
     box.position = pointForStep;
@@ -247,7 +254,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   setPosition() {
-    this.boxes[this.boxes.length - 1].position = { x: 0, y: 0 };
+    this.boxes[this.boxes.length - 1].position = {x: 0, y: 0};
   }
 
   deleteBox(event: MouseEvent) {

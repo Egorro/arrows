@@ -1,4 +1,3 @@
-
 $leftColWidth: 210px;
 $rightColWidth: 300px;
 
@@ -54,10 +53,15 @@ h2 {
   width: 200px;
   min-width: 200px;
   background-color: rgba(215, 215, 215, 0.55);
-    border-radius: 3px;
+  border-radius: 3px;
   &.highlight {
     border: 1px dashed black;
   }
+}
+
+.canvas-block {
+  height: 400px;
+  margin-top: 5px;
 }
 
 .canvas-container {
@@ -79,11 +83,6 @@ h2 {
   cursor: move;
 }
 
-.border {
-  border: 1px solid gray;
-  border-radius: 5px;
-}
-
 .box {
   position: absolute;
   display: flex;
@@ -93,35 +92,44 @@ h2 {
   min-height: 70px;
   font-size: 14px;
   background-color: #fff;
-  border-radius: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.3);
-}
+  &.box_selected {
+    box-shadow: 0 0 0 0.2em #8dcdff;
+  }
 
-.box_selected {
-  box-shadow: 0 0 0 0.2em #8dcdff;
-}
+  .box__handle {
+    flex-grow: 1;
+    cursor: move;
+  }
 
-.box__handle {
-  flex-grow: 1;
-  cursor: move;
-}
+  .box__buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: auto;
+    padding-top: 5px;
 
-.box__buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-top: auto;
-  padding-top: 5px;
-}
+    > button {
+      font-size: 9px;
+    }
+  }
 
-.box__buttons button {
-  font-size: 9px;
-}
-
-.box__btn {
-  width: 15px;
-  height: 15px;
-  background-color: green;
-  cursor: pointer;
+  .box__inputs {
+    position: absolute;
+    height: 100%;
+    width: 10px;
+    left: -5px;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .box__input {
+      width: 10px;
+      height: 10px;
+      background-color: red;
+    }
+  }
 }
 
 #end {
@@ -173,7 +181,7 @@ h2 {
   .chart-block {
     margin-left: 10px;
     width: calc(50% - 5px);
-    .chart{
+    .chart {
       height: calc(100vh - 502px - 2em);
     }
   }

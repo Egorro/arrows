@@ -78,7 +78,7 @@
         label="Add step"
       ></button>
     </div>
-    <div class="card" style="height: 400px; margin-top: 5px;">
+    <div class="canvas-block card">
       <!-- <div class="canvas-container" (mousewheel)="onScroll($event)"> -->
       <div class="canvas-container">
         <!-- <div class="canvas__drag" cdkDrag> -->
@@ -131,6 +131,10 @@
                   icon="pi pi-trash"
                 ></button>
               </div>
+              <div class="box__inputs">
+                <div class="box__input" *ngFor="let input of box.links"></div>
+              </div>
+              <div class="box__outputs"></div>
               <!-- <div class="gate" [class]="gate.name" *ngFor="let gate of box.gates">
               {{ gate.name }}
             </div> -->
@@ -157,3 +161,4 @@
   </div>
 </div>
 <div class="end-arrow" #endArrow></div>
+<p-toast></p-toast>
